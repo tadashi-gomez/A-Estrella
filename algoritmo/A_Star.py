@@ -1,15 +1,3 @@
-"""Algoritmo A* genérico.
-
-El mismo algoritmo sirve para el mapa de ciudades y para el laberinto.
-Lo único que cambia entre un problema y otro es:
-
-  1. La función de vecinos (cómo se expande un nodo y cuánto cuesta cada paso).
-  2. La heurística (ver HeuristicaCiudades.py y HeuristicaLaberinto.py).
-
-Los nodos pueden ser cualquier objeto "hasheable": un str para las ciudades
-o una tupla (fila, columna) para el laberinto.
-"""
-
 import heapq
 from itertools import count
 from typing import Callable, Hashable, Iterable, List, NamedTuple, Optional, Tuple
@@ -22,7 +10,7 @@ Heuristica = Callable[[Nodo, Nodo], float]
 class Resultado(NamedTuple):
     camino: Optional[List[Nodo]]  # None si no existe camino
     costo: float  # costo total del camino (inf si no existe)
-    nodos_expandidos: int  # cuántos nodos sacó de la lista abierta y expandió
+    nodos_expandidos: int  # cuántos nodos saco de la lista abierta y expandio
 
 
 def a_estrella(
@@ -30,17 +18,23 @@ def a_estrella(
     meta: Nodo,
     obtener_vecinos: FuncionVecinos,
     heuristica: Heuristica,
+    al_expandir: Optional[Callable[[Nodo, Optional[Nodo]], None]] = None,
 ) -> Resultado:
-    """Busca el camino de menor costo de `inicio` a `meta` con A*.
+    """
+    Busca el camino de menor costo de inicio a meta con A*.
 
-    Parámetros:
+    Parametros:
         inicio, meta:    nodos de origen y destino.
         obtener_vecinos: función nodo -> iterable de (vecino, costo_del_paso).
         heuristica:      función (nodo, meta) -> estimación del costo restante.
+        al_expandir:     (opcional) función que se llama cada vez que A* expande un
+                         nodo, como al_expandir(nodo, padre). Sirve para seguir paso
+                         a paso la búsqueda (por ejemplo, para animarla). padre es
+                         None en el nodo inicial.
 
-    f(n) = g(n) + h(n), donde g es el costo real acumulado desde `inicio`
-    y h es la estimación hasta `meta`. El camino devuelto es óptimo si la
-    heurística es admisible (nunca sobreestima el costo real).
+    f(n) = g(n) + h(n), donde g es el costo real acumulado desde inicio
+    y h es la estimación hasta meta. El camino devuelto es optimo si la
+    heuristica es admisible (nunca sobreestima el costo real).
     """
     contador = count()  # desempata entradas con igual f y h (orden de llegada)
 
@@ -56,7 +50,7 @@ def a_estrella(
     while abierta:
         _, _, _, g_entrada, actual = heapq.heappop(abierta)
 
-        # Entrada obsoleta: después de insertarla se encontró un camino mejor.
+        # Entrada obsoleta: despues de insertarla se encontro un camino mejor.
         if g_entrada > g[actual]:
             continue
 
@@ -66,6 +60,8 @@ def a_estrella(
             return Resultado(_reconstruir_camino(padre, actual), g[actual], expandidos)
 
         expandidos += 1
+        if al_expandir is not None:
+            al_expandir(actual, padre[actual])
 
         for vecino, costo_paso in obtener_vecinos(actual):
             g_nuevo = g[actual] + costo_paso
@@ -87,10 +83,8 @@ def _reconstruir_camino(padre, nodo) -> List[Nodo]:
     return camino
 
 
-# ---------------------------------------------------------------------------
-# Funciones de expansión (vecinos) para cada problema.
-# Son lo mínimo para que a_estrella pueda recorrer cada tipo de mapa.
-# ---------------------------------------------------------------------------
+# Funciones de expansion (vecinos) para cada problema.
+# Son lo minimo para que a_estrella pueda recorrer cada tipo de mapa.
 
 def vecinos_grafo(mapa):
     """Vecinos para el mapa de ciudades: {ciudad: {vecina: distancia_km}}."""

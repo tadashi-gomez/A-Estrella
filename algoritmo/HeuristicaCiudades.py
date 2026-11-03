@@ -1,7 +1,7 @@
 """Heurística para el mapa de ciudades.
 
 Se usa la distancia en línea recta entre las posiciones (x, y) de las ciudades
-(las de POSICIONES en ciudades/mapa_ciudades.py), convertida a kilómetros.
+(las de POSICIONES en ciudades/posiciones.py), convertida a kilómetros.
 
 Esas posiciones están en píxeles de una imagen de referencia, no en km, así que
 hay que multiplicarlas por una escala. Para que la heurística sea admisible
