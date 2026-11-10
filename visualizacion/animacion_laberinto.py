@@ -1,11 +1,9 @@
-"""Animación de A* en el laberinto.
+"""Animacion de A* en el laberinto.
 
 Amarillo: celdas que A* va recorriendo (expandiendo) mientras busca.
 Azul:     camino final encontrado.
 Verde / rojo: punto inicial / meta.
 
-Las celdas se indican como (fila, columna), contando desde 0 y con la fila 0 arriba,
-igual que en el archivo CSV y en la imagen del laberinto.
 """
 
 import sys
@@ -40,7 +38,7 @@ def cargar_laberinto(ruta_csv=RUTA_CSV):
 
 
 def validar_celda(matriz, celda, nombre):
-    """Comprueba que `celda` = (fila, columna) esté dentro del laberinto y no sea pared.
+    """Comprueba que `celda` = (fila, columna) este dentro del laberinto y no sea pared.
 
     Devuelve la celda como tupla de enteros; si no es válida lanza ValueError con un
     mensaje que explica el problema.
@@ -73,18 +71,16 @@ def resolver_laberinto(
     guardar_en=None,
     mostrar=True,
 ):
-    """Resuelve el laberinto con A* (heurística Manhattan) y lo anima.
+    """Resuelve el laberinto con A* (heuristica Manhattan) y lo anima.
 
     Para cambiar el punto inicial o la meta basta con pasar otras celdas:
         resolver_laberinto(inicio=(5, 3), meta=(101, 121))
     Las dos celdas tienen que ser camino libre (0 en el CSV), no pared.
 
-    Parámetros de la animación (opcionales):
-        intervalo_ms:     milisegundos entre cuadros (menor = más rápido).
-        nodos_por_cuadro: celdas exploradas que se pintan por cuadro (None = automático).
-        camino_por_cuadro: celdas del camino final que se pintan por cuadro (None = automático).
-        guardar_en:       ruta de un .gif para guardar la animación.
-        mostrar:          False para no abrir la ventana.
+    Parametros de la animacion (opcionales):
+        intervalo_ms:     milisegundos entre cuadros (menor = mas rapido).
+        nodos_por_cuadro: celdas exploradas que se pintan por cuadro (None = automatico).
+        camino_por_cuadro: celdas del camino final que se pintan por cuadro (None = automatico).
 
     Devuelve el Resultado de a_estrella (camino, costo, nodos_expandidos).
     """

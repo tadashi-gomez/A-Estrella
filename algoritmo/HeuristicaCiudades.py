@@ -1,13 +1,13 @@
-"""Heurística para el mapa de ciudades.
+"""Heuristica para el mapa de ciudades.
 
-Se usa la distancia en línea recta entre las posiciones (x, y) de las ciudades
-(las de POSICIONES en ciudades/posiciones.py), convertida a kilómetros.
+Se usa la distancia en linea recta entre las posiciones (x, y) de las ciudades
+(las de POSICIONES en ciudades/posiciones.py), convertida a kilometros.
 
-Esas posiciones están en píxeles de una imagen de referencia, no en km, así que
-hay que multiplicarlas por una escala. Para que la heurística sea admisible
+Esas posiciones estan en pixeles de una imagen de referencia, no en km, asi que
+hay que multiplicarlas por una escala. Para que la heuristica sea admisible
 (nunca sobreestime) la escala se calcula con los propios datos:
 
-    escala = mínimo de (km de la carretera / distancia en píxeles) sobre todas las aristas
+    escala = minimo de (km de la carretera / distancia en pixeles) sobre todas las aristas
 
 Con esa escala, para cada arista se cumple escala * distancia_px <= km reales,
 y por la desigualdad triangular eso se mantiene para cualquier camino. Por lo
@@ -18,7 +18,7 @@ import math
 
 
 def calcular_escala(mapa, posiciones):
-    """Km por píxel más pequeño entre todas las aristas del grafo."""
+    """Km por pixel mas pequeño entre todas las aristas del grafo."""
     escala = math.inf
     for ciudad, vecinos in mapa.items():
         for vecino, km in vecinos.items():

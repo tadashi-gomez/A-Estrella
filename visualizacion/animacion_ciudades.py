@@ -1,4 +1,4 @@
-"""Animación de A* en el mapa de ciudades.
+"""Animacion de A* en el mapa de ciudades.
 
 Amarillo: ciudades y carreteras que A* va recorriendo (expandiendo) mientras busca.
 Azul:     ruta final encontrada.
@@ -35,14 +35,14 @@ def listar_ciudades():
 
 
 def _normalizar(texto):
-    """Minúsculas, sin acentos y sin espacios sobrantes (para comparar nombres)."""
+    """Minusculas, sin acentos y sin espacios sobrantes (para comparar nombres)."""
     sin_acentos = unicodedata.normalize("NFD", str(texto))
     sin_acentos = "".join(c for c in sin_acentos if unicodedata.category(c) != "Mn")
     return " ".join(sin_acentos.lower().split())
 
 
 def buscar_ciudad(nombre):
-    """Devuelve el nombre exacto de la ciudad tal como está en el mapa.
+    """Devuelve el nombre exacto de la ciudad tal como esta en el mapa.
 
     No distingue mayúsculas ni acentos ("la paz", "Mulegé" funcionan). Si no existe,
     lanza ValueError sugiriendo nombres parecidos.
@@ -68,17 +68,15 @@ def resolver_ciudades(
     guardar_en=None,
     mostrar=True,
 ):
-    """Busca con A* la ruta más corta entre dos ciudades y la anima.
+    """Busca con A* la ruta mas corta entre dos ciudades y la anima.
 
     Para cambiar el origen o el destino basta con pasar otros nombres:
         resolver_ciudades(origen="Mexicali", destino="Cabo San Lucas")
 
-    Parámetros de la animación (opcionales):
-        intervalo_ms:      milisegundos entre cuadros (menor = más rápido).
+    Parametros de la animacion (opcionales):
+        intervalo_ms:      milisegundos entre cuadros (menor = mas rapido).
         nodos_por_cuadro:  ciudades exploradas que se pintan por cuadro.
         camino_por_cuadro: ciudades de la ruta final que se pintan por cuadro.
-        guardar_en:        ruta de un .gif para guardar la animación.
-        mostrar:           False para no abrir la ventana.
 
     Devuelve el Resultado de a_estrella (camino, costo, nodos_expandidos).
     """
@@ -102,8 +100,9 @@ def resolver_ciudades(
     else:
         print(" -> ".join(camino))
         print(f"Distancia: {resultado.costo} km | ciudades exploradas: {resultado.nodos_expandidos}")
+        print(f"Cantidad Ciudades: {len(camino)}")  # ciudades de la ruta final, incluyendo origen y destino
 
-    # 2) Se dibuja el mapa y se anima esa ejecución.
+    # 2) Se dibuja el mapa y se anima esa ejecucion.
     ciudades = list(MAPA_CIUDADES)
     indice = {c: i for i, c in enumerate(ciudades)}
     pos = {c: (POSICIONES[c][0], -POSICIONES[c][1]) for c in ciudades}  # norte arriba
@@ -126,7 +125,7 @@ def resolver_ciudades(
         zorder=1,
     )
     ax.add_collection(lineas)
-    for a, b in aristas:  # kilómetros sobre cada carretera
+    for a, b in aristas:  # kilometros sobre cada carretera
         km = MAPA_CIUDADES[a].get(b, MAPA_CIUDADES.get(b, {}).get(a))
         ax.text(
             (pos[a][0] + pos[b][0]) / 2,
@@ -197,14 +196,16 @@ def resolver_ciudades(
         lineas.set_linewidth(ancho_arista)
 
         if n_cam == 0:
-            ax.set_title(f"A*: {origen} → {destino} | explorando... ciudades recorridas: {n_exp}", fontsize=14)
+            ax.set_title(f"A*: {origen} → {destino} | explorando... ciudades exploradas: {n_exp}", fontsize=14)
         elif resultado.camino is None:
-            ax.set_title(f"No existe ruta de {origen} a {destino} | ciudades recorridas: {n_exp}", fontsize=14)
+            ax.set_title(f"No existe ruta de {origen} a {destino} | ciudades exploradas: {n_exp}", fontsize=14)
         elif n_cam < len(camino):
-            ax.set_title(f"A*: {origen} → {destino} | trazando la ruta...", fontsize=14)
+            ax.set_title(f"A*: {origen} → {destino} | trazando la ruta... Cantidad Ciudades: {n_cam}", fontsize=14)
         else:
             ax.set_title(
-                f"Ruta encontrada: {resultado.costo} km | ciudades recorridas: {n_exp}", fontsize=14
+                f"Ruta encontrada: {resultado.costo} km | Cantidad Ciudades: {len(camino)}"
+                f" | ciudades exploradas: {n_exp}",
+                fontsize=14,
             )
         return nodos, lineas
 

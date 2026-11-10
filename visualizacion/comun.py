@@ -5,8 +5,8 @@ from typing import NamedTuple, Optional, Tuple
 
 import matplotlib.pyplot as plt
 
-# Colores de la animación
-AMARILLO = "#FFD400"  # nodos/celdas que A* ya recorrió (expandió)
+# Colores de la animacion
+AMARILLO = "#FFD400"  # nodos/celdas que A* ya recorrio 
 AZUL = "#1F5FFF"  # camino final encontrado
 VERDE = "#1FA34A"  # marca del punto inicial
 ROJO = "#E5322D"  # marca de la meta
@@ -15,9 +15,9 @@ ROJO = "#E5322D"  # marca de la meta
 class PlanDeCuadros(NamedTuple):
     """Cómo se reparte la animación en cuadros."""
 
-    nodos_por_cuadro: int  # cuántos nodos expandidos se muestran por cuadro
+    nodos_por_cuadro: int  # cuantos nodos expandidos se muestran por cuadro
     cuadros_exploracion: int
-    camino_por_cuadro: int  # cuántos nodos del camino final se pintan por cuadro
+    camino_por_cuadro: int  # cuantos nodos del camino final se pintan por cuadro
     cuadros_camino: int
 
     @property

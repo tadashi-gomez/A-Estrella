@@ -1,7 +1,4 @@
-"""Ejecuta el algoritmo A* con animación, en el mapa de ciudades o en el laberinto.
-
-Colores: amarillo = lo que A* va recorriendo mientras busca, azul = camino final.
-
+"""
 Hay dos formas de elegir el punto inicial y el final:
 
 1) Editando las constantes de abajo y ejecutando el archivo (por ejemplo, desde PyCharm).
@@ -12,25 +9,17 @@ Hay dos formas de elegir el punto inicial y el final:
     python main.py laberinto --inicio 1 1 --meta 147 147
     python main.py laberinto --inicio 5 3 --meta 101 121 --intervalo 10
 
-   Opciones de animación (en ambos problemas):
+   Opciones de animacion (en ambos problemas):
     --intervalo MS           milisegundos entre cuadros (menor = más rápido)
     --nodos-por-cuadro N     cuántos nodos explorados se pintan en cada cuadro
-    --guardar archivo.gif    guarda la animación como GIF
-    --sin-ventana            no abre la ventana (útil junto con --guardar)
 
-También se puede usar desde otro archivo de Python:
-
-    from visualizacion.animacion_ciudades import resolver_ciudades
-    from visualizacion.animacion_laberinto import resolver_laberinto
-    resolver_ciudades("Tijuana", "La Paz")
-    resolver_laberinto((1, 1), (147, 147))
 """
 
 import argparse
 import sys
 
 # ----------------------------------------------------------------------------
-# CONFIGURACIÓN: cambia aquí los puntos cuando ejecutes sin argumentos.
+# CONFIGURACION
 # ----------------------------------------------------------------------------
 PROBLEMA = "ciudades"  # "ciudades" o "laberinto"
 
@@ -39,7 +28,6 @@ CIUDAD_DESTINO = "La Paz"
 
 LABERINTO_INICIO = (1, 1)  # (fila, columna), contando desde 0; la fila 0 es la de arriba
 LABERINTO_META = (147, 147)  # tiene que ser una celda libre (valor 0 en el CSV)
-# ----------------------------------------------------------------------------
 
 
 def _crear_parser():
@@ -70,7 +58,7 @@ def main(argv=None):
     args = _crear_parser().parse_args(argv)
     problema = args.problema or PROBLEMA
 
-    # Opciones de animación: solo se pasan las que el usuario indicó.
+    # Opciones de animacion
     opciones = {"mostrar": not getattr(args, "sin_ventana", False)}
     if getattr(args, "intervalo", None):
         opciones["intervalo_ms"] = args.intervalo

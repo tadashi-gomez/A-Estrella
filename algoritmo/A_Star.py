@@ -55,7 +55,7 @@ def a_estrella(
             continue
 
         # La prueba de meta se hace al sacar el nodo (no al generarlo);
-        # así el primer camino que llega a la meta es el óptimo.
+        # asi el primer camino que llega a la meta es el óptimo.
         if actual == meta:
             return Resultado(_reconstruir_camino(padre, actual), g[actual], expandidos)
 
